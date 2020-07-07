@@ -26,13 +26,13 @@ private:
 	FString Text = "TextString";
 	FString Aue = "raw";
 	FString Auf = "audio/L16;rate=16000";
-	FString Pitch = "50";
 	FString Engine_type = "intp65";
 	FString Text_type = "text";
 public:
 	FString Voice_name = "xiaoyan";
 	FString Speed = "50";
 	FString Volume = "50";
+	FString Pitch = "50";
 	FString Appid = ""; /*your appid*/
 	FString Api_key = "";/*your api key*/
 	FString SaveDir = *FPaths::ProjectSavedDir() + FString("/audio/");

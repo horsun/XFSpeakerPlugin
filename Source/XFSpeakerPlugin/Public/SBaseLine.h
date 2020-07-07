@@ -21,10 +21,11 @@ public:
 	SLATE_END_ARGS()
 
 
-	TSharedPtr<SMainWidget> SMainParentBox;
-
 	/** Constructs this widget with InArgs */
-	void Construct(const FArguments& InArgs, TSharedPtr<SMainWidget> SParentBox);
+	void Construct(const FArguments& InArgs, SMainWidget *SParentBox);
+
+	SMainWidget *SMainParentBox;
+
 	FReply OnClickDelete();
 	FReply OnClickPreview();
 

@@ -18,7 +18,8 @@ void SMainWidget::Construct(const FArguments& InArgs)
 					SAssignNew(SContainer, SVerticalBox)
 					+ SVerticalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 					[
-						SNew(SBaseLine, MakeShareable(this))
+						//SNew(SBaseLine, MakeShareable(this))
+						SNew(SBaseLine,this)
 					]
 				]
 			]
@@ -53,13 +54,39 @@ void SMainWidget::Construct(const FArguments& InArgs)
 				]
 				+SCanvas::Slot().Position(FVector2D(150.f,300.f)).Size(FVector2D(100.f,30.f))
 					[
-						SAssignNew(SSpeedText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
-						//.HintText(FText::FromString("Here Set Speed"))
+						SNew(SHorizontalBox)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)
+							[
+								SNew(STextBlock).Text(FText::FromString("Speed:"))
+							]
+						+SHorizontalBox::Slot()
+							[
+								SAssignNew(SSpeedText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
+							]
 					]
 				+ SCanvas::Slot().Position(FVector2D(150.f, 350.f)).Size(FVector2D(100.f, 30.f))
 					[
-						SAssignNew(SVolumeText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
-						//.HintText(FText::FromString("Here Set Volume"))
+						SNew(SHorizontalBox)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)
+							[
+								SNew(STextBlock).Text(FText::FromString("Volume:"))
+							]
+						+ SHorizontalBox::Slot()
+							[
+								SAssignNew(SVolumeText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
+							]
+					]
+				+ SCanvas::Slot().Position(FVector2D(150.f, 400.f)).Size(FVector2D(100.f, 30.f))
+					[
+						SNew(SHorizontalBox)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)
+							[
+								SNew(STextBlock).Text(FText::FromString("Pitch:"))
+							]
+						+ SHorizontalBox::Slot()
+							[
+								SAssignNew(SPitchText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
+							]
 					]
 			]
 		];
@@ -81,9 +108,10 @@ FXFConfig SMainWidget::GetConfig()
 	FXFConfig tmp;
 	tmp.Api_key = "";
 	tmp.Appid = "";
-	tmp.Speed = "";
-	tmp.Voice_name = "";
-	tmp.Volume = "";
+	tmp.Speed = FString::FromInt(int(SSpeedText->GetValue()));
+	tmp.Voice_name = "xiaoyan";
+	tmp.Volume = FString::FromInt(int(SVolumeText->GetValue()));
+	tmp.Pitch = FString::FromInt(int(SPitchText->GetValue()));
 
 	return tmp;
 }
@@ -96,7 +124,7 @@ FReply SMainWidget::OnClickCreate()
 {
 		SContainer->AddSlot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 		[
-			SNew(SBaseLine, MakeShareable(this))
+			SNew(SBaseLine,this)
 		];
 	
 	return FReply::Handled();

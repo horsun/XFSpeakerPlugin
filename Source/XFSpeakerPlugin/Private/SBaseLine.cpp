@@ -5,7 +5,7 @@
 #include "SlateOptMacros.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
-void SBaseLine::Construct(const FArguments& InArgs, TSharedPtr<SMainWidget> SParentBox)
+void SBaseLine::Construct(const FArguments& InArgs, SMainWidget *SParentBox)
 {
 	//UE_LOG(LogTemp, Log, TEXT("total slate count %d"), test);
 	SMainParentBox = SParentBox;

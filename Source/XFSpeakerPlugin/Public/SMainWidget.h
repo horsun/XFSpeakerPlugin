@@ -32,6 +32,7 @@ public:
 
 	TSharedPtr<SSpinBox<int>> SSpeedText;
 	TSharedPtr<SSpinBox<int>> SVolumeText;
+	TSharedPtr<SSpinBox<int>> SPitchText;
 
 
 

@@ -10,6 +10,7 @@ struct FXFConfig
 	FString Voice_name;
 	FString Speed;
 	FString Volume;
+	FString Pitch;
 	FString Appid;
 	FString Api_key;
 };
