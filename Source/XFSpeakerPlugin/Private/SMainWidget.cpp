@@ -2,7 +2,6 @@
 
 
 #include "SMainWidget.h"
-#include "Widgets/SCanvas.h"
 #include "SlateOptMacros.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -19,7 +18,7 @@ void SMainWidget::Construct(const FArguments& InArgs)
 					SAssignNew(SContainer, SVerticalBox)
 					+ SVerticalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 					[
-						SNew(SBaseLine, SContainer)
+						SNew(SBaseLine, MakeShareable(this))
 					]
 				]
 			]
@@ -52,6 +51,16 @@ void SMainWidget::Construct(const FArguments& InArgs)
 					.Text(FText::FromString("OpenFolder")).HAlign(HAlign_Center).VAlign(VAlign_Center)
 					.OnClicked_Raw(this, &SMainWidget::OnClickOpenFloder)
 				]
+				+SCanvas::Slot().Position(FVector2D(150.f,300.f)).Size(FVector2D(100.f,30.f))
+					[
+						SAssignNew(SSpeedText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
+						//.HintText(FText::FromString("Here Set Speed"))
+					]
+				+ SCanvas::Slot().Position(FVector2D(150.f, 350.f)).Size(FVector2D(100.f, 30.f))
+					[
+						SAssignNew(SVolumeText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
+						//.HintText(FText::FromString("Here Set Volume"))
+					]
 			]
 		];
 }
@@ -67,6 +76,17 @@ FReply SMainWidget::OnClickSpawnWave()
 	}
 	return FReply::Handled();
 }
+FXFConfig SMainWidget::GetConfig()
+{
+	FXFConfig tmp;
+	tmp.Api_key = "";
+	tmp.Appid = "";
+	tmp.Speed = "";
+	tmp.Voice_name = "";
+	tmp.Volume = "";
+
+	return tmp;
+}
 FReply SMainWidget::OnClickOpenFloder()
 {
 	UXFPluginLib::OpenFloder();
@@ -76,7 +96,7 @@ FReply SMainWidget::OnClickCreate()
 {
 		SContainer->AddSlot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 		[
-			SNew(SBaseLine, SContainer)
+			SNew(SBaseLine, MakeShareable(this))
 		];
 	
 	return FReply::Handled();

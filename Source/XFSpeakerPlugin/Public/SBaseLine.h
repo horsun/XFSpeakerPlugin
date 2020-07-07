@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "XFPluginLib.h"
+#include "SMainWidget.h"
 #include "TimerManager.h"
 #include "XFSpeakerProcess.h"
 #include "Kismet/GameplayStatics.h"
@@ -20,10 +21,10 @@ public:
 	SLATE_END_ARGS()
 
 
-	TSharedPtr<SVerticalBox> SMainParentBox;
+	TSharedPtr<SMainWidget> SMainParentBox;
 
 	/** Constructs this widget with InArgs */
-	void Construct(const FArguments& InArgs, TSharedPtr<SVerticalBox> SParentBox);
+	void Construct(const FArguments& InArgs, TSharedPtr<SMainWidget> SParentBox);
 	FReply OnClickDelete();
 	FReply OnClickPreview();
 

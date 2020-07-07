@@ -5,11 +5,12 @@
 #include "SlateOptMacros.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
-void SBaseLine::Construct(const FArguments& InArgs, TSharedPtr<SVerticalBox> SParentBox)
+void SBaseLine::Construct(const FArguments& InArgs, TSharedPtr<SMainWidget> SParentBox)
 {
 	//UE_LOG(LogTemp, Log, TEXT("total slate count %d"), test);
 	SMainParentBox = SParentBox;
 	cWaveCreater = NewObject<UXFSpeakerProcess>();
+	cWaveCreater->initProperty(SMainParentBox->GetConfig());
 	ChildSlot
 		[
 			SNew(SHorizontalBox)
@@ -60,6 +61,7 @@ void SBaseLine::SpawnWave()
 	//Spawn .wav file
 	filename = SFileName->GetText().ToString();
 	fWaveString = SWaveString->GetText().ToString();
+	cWaveCreater->initProperty(SMainParentBox->GetConfig());
 	if (cWaveCreater!=nullptr&&filename.Len()!=0&& fWaveString.Len()!=0)
 	{
 		filename.Append(".wav");

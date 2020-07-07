@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "XFPluginLib.h"
 #include "XFSpeakerProcess.h"
+#include "Widgets/SCanvas.h"
+#include "XFStruct.h"
+#include "Widgets/Input/SSpinBox.h"
 #include "Widgets/SCompoundWidget.h"
 
 /**
@@ -27,6 +30,8 @@ public:
 	TSharedPtr<SVerticalBox> SContainer;
 
 
+	TSharedPtr<SSpinBox<int>> SSpeedText;
+	TSharedPtr<SSpinBox<int>> SVolumeText;
 
 
 
@@ -35,4 +40,7 @@ public:
 	FReply OnClickDeleteAll();
 	FReply OnClickOpenFloder();
 	FReply OnClickSpawnWave();
+
+public:
+	FXFConfig GetConfig();
 };

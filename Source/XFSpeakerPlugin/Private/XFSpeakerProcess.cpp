@@ -81,3 +81,12 @@ void UXFSpeakerProcess::CompletedCallback(FHttpRequestPtr HttpRequest, FHttpResp
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("语音转换失败"));
 	}
 }
+
+void UXFSpeakerProcess::initProperty(FXFConfig config)
+{
+	Voice_name = config.Voice_name;
+	Speed = config.Speed;
+	Api_key = config.Api_key;
+	Appid = config.Appid;
+	Volume = config.Volume;
+}

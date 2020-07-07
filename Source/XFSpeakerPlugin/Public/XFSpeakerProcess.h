@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "string"
 #include "Http.h"
+#include "XFStruct.h"
 #include "UObject/NoExportTypes.h"
 #include "XFSpeakerProcess.generated.h"
 
@@ -40,7 +41,7 @@ public:
 	void SpawnWaveFile(FString literalString, FString waveName);
 	void CompletedCallback(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded);
 
-
+	void initProperty(FXFConfig config);
 	//UPROPERTY(BlueprintAssignable, Category = "Event")
 	FProcessCallBack onCallBack;
 	
