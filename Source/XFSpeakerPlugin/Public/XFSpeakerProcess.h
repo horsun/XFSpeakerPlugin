@@ -3,8 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Base64.h"
-#include "SecureHash.h"
 #include "Engine.h"
 #include "string"
 #include "Http.h"
@@ -24,29 +22,18 @@ class XFSPEAKERPLUGIN_API UXFSpeakerProcess : public UObject
 private:
 	// �ϳ�webapi�ӿڵ�ַ
 	FString Webtts_url = "http://api.xfyun.cn/v1/service/v1/tts";
-	// ���ϳ��ı�
-	FString Text = "������Ƶ";
-	// ��Ƶ����
+	FString Text = "TextString";
 	FString Aue = "raw";
-	// ������
 	FString Auf = "audio/L16;rate=16000";
-	// ����
-	FString Speed = "50";
-	// ����
-	FString Volume = "50";
-	// ����
 	FString Pitch = "50";
-	// ��������
 	FString Engine_type = "intp65";
-	// �ı�����
 	FString Text_type = "text";
 public:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FString Voice_name = "xiaoyan";
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FString Appid = ""; /*your appid*/
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FString Api_key = "";/*your api key*/
+	FString Voice_name = "xiaoyan";
+	FString Speed = "50";
+	FString Volume = "50";
+	FString Appid = ""; /*your appid*/
+	FString Api_key = "";/*your api key*/
 	FString SaveDir = *FPaths::ProjectSavedDir() + FString("/audio/");
 
 public:
