@@ -7,6 +7,13 @@
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SMainWidget::Construct(const FArguments& InArgs)
 {
+	VNSourceList.Add(MakeShareable(new FString("xiaoyan")));
+	VNSourceList.Add(MakeShareable(new FString("aisjiuxu")));
+	VNSourceList.Add(MakeShareable(new FString("aisxping")));
+	VNSourceList.Add(MakeShareable(new FString("aisjinger")));
+	VNSourceList.Add(MakeShareable(new FString("aisbabyxu")));
+	VNSelectIndex = 0;
+
 	ChildSlot
 		[
 		SNew(SHorizontalBox)
@@ -52,10 +59,10 @@ void SMainWidget::Construct(const FArguments& InArgs)
 					.Text(FText::FromString("OpenFolder")).HAlign(HAlign_Center).VAlign(VAlign_Center)
 					.OnClicked_Raw(this, &SMainWidget::OnClickOpenFloder)
 				]
-				+SCanvas::Slot().Position(FVector2D(150.f,300.f)).Size(FVector2D(100.f,30.f))
+				+SCanvas::Slot().Position(FVector2D(150.f,300.f)).Size(FVector2D(150.f,30.f))
 					[
 						SNew(SHorizontalBox)
-						+ SHorizontalBox::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Center)
 							[
 								SNew(STextBlock).Text(FText::FromString("Speed:"))
 							]
@@ -64,10 +71,10 @@ void SMainWidget::Construct(const FArguments& InArgs)
 								SAssignNew(SSpeedText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
 							]
 					]
-				+ SCanvas::Slot().Position(FVector2D(150.f, 350.f)).Size(FVector2D(100.f, 30.f))
+				+ SCanvas::Slot().Position(FVector2D(150.f, 350.f)).Size(FVector2D(150.f, 30.f))
 					[
 						SNew(SHorizontalBox)
-						+ SHorizontalBox::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Center)
 							[
 								SNew(STextBlock).Text(FText::FromString("Volume:"))
 							]
@@ -76,16 +83,35 @@ void SMainWidget::Construct(const FArguments& InArgs)
 								SAssignNew(SVolumeText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
 							]
 					]
-				+ SCanvas::Slot().Position(FVector2D(150.f, 400.f)).Size(FVector2D(100.f, 30.f))
+				+ SCanvas::Slot().Position(FVector2D(150.f, 400.f)).Size(FVector2D(150.f, 30.f))
 					[
 						SNew(SHorizontalBox)
-						+ SHorizontalBox::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Center)
 							[
 								SNew(STextBlock).Text(FText::FromString("Pitch:"))
 							]
 						+ SHorizontalBox::Slot()
 							[
 								SAssignNew(SPitchText, SSpinBox<int>).MinValue(0).MaxValue(100).Value(50)
+							]
+					]
+				+ SCanvas::Slot().Position(FVector2D(150.f, 450.f)).Size(FVector2D(150.f, 30.f))
+					[
+						SNew(SHorizontalBox)
+						+ SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Center)
+							[
+								SNew(STextBlock).Text(FText::FromString("VoiceName:"))
+							]
+						+ SHorizontalBox::Slot()
+							[
+								SAssignNew(SVoiceNameText, SComboBox<VoiceNameSource>)
+								.OptionsSource(&VNSourceList)
+								.OnGenerateWidget_Raw(this,&SMainWidget::MakeWidgetForVNSource)
+								.OnSelectionChanged_Raw(this,&SMainWidget::OnSelectedVNChanged)
+								.InitiallySelectedItem(VNSourceList[0])
+								[
+									SNew(STextBlock).Text(this,&SMainWidget::GetCurrentVNLabel)
+								]
 							]
 					]
 			]
@@ -103,13 +129,26 @@ FReply SMainWidget::OnClickSpawnWave()
 	}
 	return FReply::Handled();
 }
+TSharedRef<SWidget> SMainWidget::MakeWidgetForVNSource(VoiceNameSource InOption)
+{
+	return SNew(STextBlock).Text(FText::FromString(*InOption));
+}
+FText SMainWidget::GetCurrentVNLabel() const
+{
+	if (VNSelectIndex.IsValid())
+	{
+		return FText::FromString(*VNSelectIndex);
+	} 
+
+	return FText::FromString("ERROR");
+}
 FXFConfig SMainWidget::GetConfig()
 {
 	FXFConfig tmp;
 	tmp.Api_key = "";
 	tmp.Appid = "";
 	tmp.Speed = FString::FromInt(int(SSpeedText->GetValue()));
-	tmp.Voice_name = "xiaoyan";
+	tmp.Voice_name = *SVoiceNameText->GetSelectedItem();
 	tmp.Volume = FString::FromInt(int(SVolumeText->GetValue()));
 	tmp.Pitch = FString::FromInt(int(SPitchText->GetValue()));
 

@@ -14,3 +14,12 @@ struct FXFConfig
 	FString Appid;
 	FString Api_key;
 };
+
+USTRUCT(BlueprintType)
+struct FVoiceName
+{
+	GENERATED_USTRUCT_BODY()
+
+	FString CName;
+	FString EName;
+};
