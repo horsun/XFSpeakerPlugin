@@ -12,12 +12,12 @@ void SMainWidget::Construct(const FArguments& InArgs)
 	VNSourceList.Add(MakeShareable(new FString("aisxping")));
 	VNSourceList.Add(MakeShareable(new FString("aisjinger")));
 	VNSourceList.Add(MakeShareable(new FString("aisbabyxu")));
-	VNSelectIndex = 0;
+	VNSelectIndex = MakeShareable(new FString("xiaoyan"));
 
 	ChildSlot
 		[
 		SNew(SHorizontalBox)
-		 + SHorizontalBox::Slot().HAlign(HAlign_Fill).VAlign(VAlign_Fill)
+		 + SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 			[
 				SNew(SCanvas)
 				+ SCanvas::Slot().Size(FVector2D(400.f, 600.f)).Position(FVector2D(0.f,0.f))
@@ -25,7 +25,6 @@ void SMainWidget::Construct(const FArguments& InArgs)
 					SAssignNew(SContainer, SVerticalBox)
 					+ SVerticalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 					[
-						//SNew(SBaseLine, MakeShareable(this))
 						SNew(SBaseLine,this)
 					]
 				]
@@ -108,7 +107,7 @@ void SMainWidget::Construct(const FArguments& InArgs)
 								.OptionsSource(&VNSourceList)
 								.OnGenerateWidget_Raw(this,&SMainWidget::MakeWidgetForVNSource)
 								.OnSelectionChanged_Raw(this,&SMainWidget::OnSelectedVNChanged)
-								.InitiallySelectedItem(VNSourceList[0])
+								.InitiallySelectedItem(VNSelectIndex)
 								[
 									SNew(STextBlock).Text(this,&SMainWidget::GetCurrentVNLabel)
 								]
@@ -138,9 +137,9 @@ FText SMainWidget::GetCurrentVNLabel() const
 	if (VNSelectIndex.IsValid())
 	{
 		return FText::FromString(*VNSelectIndex);
-	} 
+	}
 
-	return FText::FromString("ERROR");
+	return FText::FromString("xiaoyan");
 }
 FXFConfig SMainWidget::GetConfig()
 {

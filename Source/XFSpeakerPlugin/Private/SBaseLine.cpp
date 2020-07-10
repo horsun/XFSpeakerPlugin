@@ -54,6 +54,8 @@ FReply SBaseLine::OnClickDelete()
 FReply SBaseLine::OnClickPreview()
 {
 	//Play Preview SoundWave
+	UGameplayStatics::SpawnSound2D(GEngine->GetWorldContexts()[0].World(),SpeachWaveObj);
+	UXFPluginLib::SaveSoundAssetToContent(SpeachWaveObj);
 	return FReply::Handled();
 }
 void SBaseLine::SpawnWave()
