@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "XFSpeakerPluginCommands.h"
 
@@ -6,7 +6,7 @@
 
 void FXFSpeakerPluginCommands::RegisterCommands()
 {
-	UI_COMMAND(OpenPluginWindow, "XFSpeakerPlugin", "Bring up XFSpeakerPlugin window", EUserInterfaceActionType::Button, FInputGesture());
+	UI_COMMAND(OpenPluginWindow,"讯飞生成器", "讯飞语音在线生成", EUserInterfaceActionType::Button, FInputGesture());
 }
 
 #undef LOCTEXT_NAMESPACE
