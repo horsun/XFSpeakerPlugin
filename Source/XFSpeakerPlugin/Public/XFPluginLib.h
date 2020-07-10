@@ -8,6 +8,9 @@
 #include "Sound/SoundBase.h"
 #include "Sound/SoundWave.h"
 #include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
+#include "DesktopPlatform/Public/IDesktopPlatform.h"
+#include "DesktopPlatform/Public/DesktopPlatformModule.h"
 #include "XFPluginLib.generated.h"
 
 /**
@@ -68,4 +71,11 @@ public:
 		}
 	}
 	
+	static FString ChooseFloder() {
+		FString OutDir ="";
+		IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
+		FString DefautDir = FPaths::ProjectContentDir();
+		DesktopPlatform->OpenDirectoryDialog(nullptr, TEXT("Ñ¡È¡Â·¾¶"), DefautDir, OutDir);
+		return OutDir;
+	}
 };

@@ -43,6 +43,7 @@ public class XFSpeakerPlugin : ModuleRules
 				"Slate",
 				"SlateCore",
                 "HTTP",
+                "DesktopPlatform",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

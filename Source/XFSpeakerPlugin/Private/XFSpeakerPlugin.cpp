@@ -61,7 +61,7 @@ TSharedRef<SDockTab> FXFSpeakerPluginModule::OnSpawnPluginTab(const FSpawnTabArg
 			SNew(SCanvas)
 			+SCanvas::Slot()
 			.Position(FVector2D(0.f,0.f))
-			.Size(FVector2D(500.f,500.f))
+			.Size(FVector2D(800.f,500.f))
 			[
 				SNew(SMainWidget)
 			]

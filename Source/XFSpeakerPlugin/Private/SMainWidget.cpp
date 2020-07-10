@@ -17,7 +17,7 @@ void SMainWidget::Construct(const FArguments& InArgs)
 	ChildSlot
 		[
 		SNew(SHorizontalBox)
-		 + SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
+		 + SHorizontalBox::Slot().HAlign(HAlign_Fill).VAlign(VAlign_Fill)
 			[
 				SNew(SCanvas)
 				+ SCanvas::Slot().Size(FVector2D(800.f, 600.f)).Position(FVector2D(0.f,0.f))
@@ -34,6 +34,10 @@ void SMainWidget::Construct(const FArguments& InArgs)
 			
 				
 				SNew(SCanvas)
+				+ SCanvas::Slot().Position(FVector2D(200.f, 50.f)).Size(FVector2D(100.0f, 30.0f))
+				[
+					SAssignNew(SDirText, STextBlock).Text(FText::FromString(SavedDir)).ToolTipText(FText::FromString(SavedDir))
+				]
 				+ SCanvas::Slot().Position(FVector2D(150.f, 100.f)).Size(FVector2D(100.0f, 30.0f))
 				[
 					SAssignNew(SCreateLine, SButton)
@@ -55,9 +59,15 @@ void SMainWidget::Construct(const FArguments& InArgs)
 				+ SCanvas::Slot().Position(FVector2D(150.f, 250.0f)).Size(FVector2D(100.0f, 30.0f))
 				[
 					SAssignNew(SOpenFloder, SButton)
-					.Text(FText::FromString("OpenFolder")).HAlign(HAlign_Center).VAlign(VAlign_Center)
-					.OnClicked_Raw(this, &SMainWidget::OnClickOpenFloder)
+					.Text(FText::FromString("OpenSavedDIR")).HAlign(HAlign_Center).VAlign(VAlign_Center)
+					.OnClicked_Raw(this, &SMainWidget::OnClickOpenFloder).ToolTipText(FText::FromString("Open the DIR where  .wav files saved"))
 				]
+				+ SCanvas::Slot().Position(FVector2D(300.f, 250.0f)).Size(FVector2D(100.0f, 30.0f))
+					[
+						SAssignNew(SChooseDir, SButton)
+						.Text(FText::FromString("ModifySavedDIR")).HAlign(HAlign_Center).VAlign(VAlign_Center)
+					.OnClicked_Raw(this, &SMainWidget::OnClickOpenChooseDirWindow).ToolTipText(FText::FromString("Modify the DIR where .wav files saved "))
+					]
 				+SCanvas::Slot().Position(FVector2D(150.f,300.f)).Size(FVector2D(150.f,30.f))
 					[
 						SNew(SHorizontalBox)
@@ -152,6 +162,13 @@ FXFConfig SMainWidget::GetConfig()
 	tmp.Pitch = FString::FromInt(int(SPitchText->GetValue()));
 
 	return tmp;
+}
+FReply SMainWidget::OnClickOpenChooseDirWindow()
+{
+	SavedDir = UXFPluginLib::ChooseFloder();
+	SDirText->SetText(SavedDir);
+	SDirText->SetToolTipText(FText::FromString(SavedDir));
+	return FReply::Handled();
 }
 FReply SMainWidget::OnClickOpenFloder()
 {

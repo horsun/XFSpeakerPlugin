@@ -30,7 +30,12 @@ public:
 	TSharedPtr<SButton> SDeleteAll;
 	TSharedPtr<SButton> SOpenFloder;
 	TSharedPtr<SButton> SSpawnWave;
+	TSharedPtr<SButton> SChooseDir;
 	TSharedPtr<SVerticalBox> SContainer;
+
+
+	TSharedPtr<STextBlock> SDirText;
+	FString SavedDir = "/Saved/audio/";
 
 
 	TSharedPtr<SSpinBox<int>> SSpeedText;
@@ -50,6 +55,7 @@ public:
 	FReply OnClickDeleteAll();
 	FReply OnClickOpenFloder();
 	FReply OnClickSpawnWave();
+	FReply OnClickOpenChooseDirWindow();
 
 
 	/** Generate combobox swidget function **/
