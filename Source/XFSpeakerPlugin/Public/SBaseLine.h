@@ -28,12 +28,14 @@ public:
 
 	FReply OnClickDelete();
 	FReply OnClickPreview();
+	FReply ONClickSaveAsset();
 
 	/**define Slate ui**/
 	TSharedPtr<SButton> SDeleteButton ;
 	TSharedPtr<SButton> SPreivewButton ;
 	TSharedPtr<SEditableTextBox> SFileName;
 	TSharedPtr<SEditableTextBox> SWaveString;
+	TSharedPtr<SButton> SSaveAsAsset;
 	SVerticalBox *localParent;
 
 	USoundWave *SpeachWaveObj;

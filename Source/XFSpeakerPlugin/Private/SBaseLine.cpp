@@ -2,6 +2,8 @@
 
 
 #include "SBaseLine.h"
+
+#include "AssetRegistryModule.h"
 #include "SlateOptMacros.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -43,6 +45,14 @@ void SBaseLine::Construct(const FArguments& InArgs, SMainWidget *SParentBox)
 					.OnClicked_Raw(this,&SBaseLine::OnClickPreview)
 					.IsEnabled(false)
 				]
+			+ SHorizontalBox::Slot().HAlign(HAlign_Fill).VAlign(VAlign_Fill).FillWidth(1)
+				.Padding(10.f, 10.f, 10.f, 0.f)
+				[
+					SAssignNew(SSaveAsAsset, SButton)
+					.Text(FText::FromString("SaveToEditor")).HAlign(HAlign_Center).VAlign(VAlign_Center)
+				.OnClicked_Raw(this, &SBaseLine::ONClickSaveAsset)
+				.IsEnabled(false)
+				]
 			
 		];
 }
@@ -55,7 +65,62 @@ FReply SBaseLine::OnClickPreview()
 {
 	//Play Preview SoundWave
 	UGameplayStatics::SpawnSound2D(GEngine->GetWorldContexts()[0].World(),SpeachWaveObj);
-	UXFPluginLib::SaveSoundAssetToContent(SpeachWaveObj);
+	
+	return FReply::Handled();
+}
+
+FReply SBaseLine::ONClickSaveAsset()
+{
+	/* get full path */
+	FString InFilePath = cWaveCreater->SaveDir;
+	FString localFileName = SFileName->GetText().ToString();
+	InFilePath.Append(filename);
+
+	/* Asset init */
+	FString AssetPath = FString("/Game/test/");
+	FString PackagePath = FString("/Game/test");
+	UPackage *Package = CreatePackage(nullptr, *PackagePath);
+
+	/* sound wave init*/
+	USoundWave* sw = NewObject<USoundWave>(Package, USoundWave::StaticClass(), *localFileName, EObjectFlags::RF_Public | EObjectFlags::RF_Standalone);
+
+		 
+	/* config inited wave file */
+	TArray <uint8> rawFile;
+	FFileHelper::LoadFileToArray(rawFile, InFilePath.GetCharArray().GetData());
+	FWaveModInfo WaveInfo;
+
+	if (WaveInfo.ReadWaveInfo(rawFile.GetData(), rawFile.Num()))
+	{
+		int32 DurationDiv = *WaveInfo.pChannels * *WaveInfo.pBitsPerSample * *WaveInfo.pSamplesPerSec;
+		if (DurationDiv)
+		{
+			sw->SoundGroup = ESoundGroup::SOUNDGROUP_Default;
+			sw->NumChannels = *WaveInfo.pChannels;
+			sw->Duration = *WaveInfo.pWaveDataSize * 8.0f / DurationDiv; ;
+			sw->RawPCMDataSize = WaveInfo.SampleDataSize;
+			sw->SetSampleRate(*WaveInfo.pSamplesPerSec);
+
+
+			sw->InvalidateCompressedData();
+			sw->RawData.Lock(LOCK_READ_WRITE);
+			FMemory::Memcpy(sw->RawData.Realloc(rawFile.Num()), rawFile.GetData(), rawFile.Num());
+			sw->RawData.Unlock();
+
+
+			sw->RawPCMDataSize = WaveInfo.SampleDataSize;
+			sw->RawPCMData = (uint8 *)FMemory::Malloc(sw->RawPCMDataSize);
+			FMemory::Memmove(sw->RawPCMData, rawFile.GetData(), rawFile.Num());
+		}
+	}
+	FAssetRegistryModule::AssetCreated(sw);
+
+	sw->MarkPackageDirty();
+
+	FString FilePath = FString::Printf(TEXT("%s%s%s"), *AssetPath, *localFileName, *FPackageName::GetAssetPackageExtension());
+
+	bool success = UPackage::SavePackage(Package, sw, EObjectFlags::RF_Public | EObjectFlags::RF_Standalone, *FilePath);
+
 	return FReply::Handled();
 }
 void SBaseLine::SpawnWave()
@@ -82,6 +147,7 @@ void SBaseLine::SpawnCallBack(FString callbackname)
 		filePath.Append(filename);
 		SpeachWaveObj = UXFPluginLib::GetSoundWaveFromFile(filePath);
 		SPreivewButton->SetEnabled(true);
+		SSaveAsAsset->SetEnabled(true);
 	}
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

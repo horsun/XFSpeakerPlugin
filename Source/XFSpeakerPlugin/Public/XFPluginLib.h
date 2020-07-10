@@ -67,7 +67,5 @@ public:
 			return nullptr;
 		}
 	}
-	static bool SaveSoundAssetToContent(USoundWave* SaveAsset) {
-		return 1;
-	}
+	
 };

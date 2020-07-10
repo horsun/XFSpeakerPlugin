@@ -20,7 +20,7 @@ void SMainWidget::Construct(const FArguments& InArgs)
 		 + SHorizontalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
 			[
 				SNew(SCanvas)
-				+ SCanvas::Slot().Size(FVector2D(400.f, 600.f)).Position(FVector2D(0.f,0.f))
+				+ SCanvas::Slot().Size(FVector2D(800.f, 600.f)).Position(FVector2D(0.f,0.f))
 				[
 					SAssignNew(SContainer, SVerticalBox)
 					+ SVerticalBox::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top)
