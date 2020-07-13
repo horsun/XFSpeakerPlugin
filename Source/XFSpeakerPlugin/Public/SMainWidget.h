@@ -61,10 +61,7 @@ public:
 	/** Generate combobox swidget function **/
 	TSharedRef <SWidget> MakeWidgetForVNSource(VoiceNameSource InOption);
 	FText GetCurrentVNLabel() const;
-	void OnSelectedVNChanged(VoiceNameSource NewValue, ESelectInfo::Type)
-	{
-		VNSelectIndex = NewValue;
-	}
+	void OnSelectedVNChanged(VoiceNameSource NewValue, ESelectInfo::Type);
 
 public:
 	FXFConfig GetConfig();

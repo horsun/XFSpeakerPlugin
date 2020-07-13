@@ -21,7 +21,7 @@ class XFSPEAKERPLUGIN_API UXFSpeakerProcess : public UObject
 	GENERATED_BODY()
 
 private:
-	// �ϳ�webapi�ӿڵ�ַ
+	// this api is old version,check this out;
 	FString Webtts_url = "http://api.xfyun.cn/v1/service/v1/tts";
 	FString Text = "TextString";
 	FString Aue = "raw";

@@ -142,6 +142,12 @@ TSharedRef<SWidget> SMainWidget::MakeWidgetForVNSource(VoiceNameSource InOption)
 {
 	return SNew(STextBlock).Text(FText::FromString(*InOption));
 }
+
+void SMainWidget::OnSelectedVNChanged(VoiceNameSource NewValue, ESelectInfo::Type)
+{
+	VNSelectIndex = NewValue;
+}
+
 FText SMainWidget::GetCurrentVNLabel() const
 {
 	if (VNSelectIndex.IsValid())

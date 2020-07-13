@@ -58,7 +58,8 @@ void SBaseLine::Construct(const FArguments& InArgs, SMainWidget *SParentBox)
 }
 FReply SBaseLine::OnClickDelete()
 {
-	
+	TSharedPtr<SWidget> ParentSwidget = this->GetParentWidget();
+	static_cast<SVerticalBox&>(ParentSwidget.ToSharedRef().Get()).RemoveSlot(this->AsShared());
 	return FReply::Handled();
 }
 FReply SBaseLine::OnClickPreview()
@@ -132,6 +133,7 @@ void SBaseLine::SpawnWave()
 	if (cWaveCreater!=nullptr&&filename.Len()!=0&& fWaveString.Len()!=0)
 	{
 		filename.Append(".wav");
+		cWaveCreater->SaveDir = SMainParentBox->SavedDir;
 		cWaveCreater->SpawnWaveFile(fWaveString, filename);
 		cWaveCreater->onCallBack.BindRaw(this, &SBaseLine::SpawnCallBack);
 		//GetWorldTimerManager().SetTimer(FSlateTimer, this, &SBaseLine::SpawnCallBack, true, 5.0f);
